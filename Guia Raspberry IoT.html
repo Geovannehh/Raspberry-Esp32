@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Guia Raspberry IoT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+:root { --red: #c51a4a; --ink: #1b1b22; --muted: #6a6a78; --bg: #fff; --alt: #f4f4f7; --green: #2f8a45; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { margin: 0; font-family: "Manrope", system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+a { color: inherit; }
+.nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 28px; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); border-bottom: 1px solid #e6e6ee; }
+.brand { font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.dot { width: 16px; height: 16px; border-radius: 50%; background: var(--red); box-shadow: 9px 0 0 -3px var(--green); margin-right: 8px; }
+.nav nav a { margin-left: 22px; text-decoration: none; font-weight: 600; color: var(--muted); }
+.nav nav a:hover { color: var(--red); }
+section { padding: 56px 28px; max-width: 1180px; margin: 0 auto; }
+.alt { max-width: none; background: var(--alt); }
+.alt > * { max-width: 1124px; margin-left: auto; margin-right: auto; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 16px; font-weight: 800; }
+h2 { font-size: 1.9rem; margin: 0 0 22px; letter-spacing: -.02em; }
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; align-items: center; min-height: 440px; }
+.hero p { font-size: 1.1rem; line-height: 1.55; color: var(--muted); max-width: 520px; }
+.btn { display: inline-block; background: var(--red); color: #fff; padding: 13px 26px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 8px; }
+.heroart svg { width: 100%; height: auto; }
+.muted { color: var(--muted); }
+.tools { display: grid; gap: 12px; margin-bottom: 22px; }
+input[type=search] { font: inherit; padding: 12px 16px; border: 1px solid #d6d6e0; border-radius: 10px; max-width: 360px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: .85rem; font-weight: 600; border: 1px solid #d6d6e0; background: #fff; color: var(--ink); padding: 6px 14px; border-radius: 99px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
+.tag { font-size: .72rem; font-weight: 600; background: var(--alt); color: var(--muted); padding: 3px 9px; border-radius: 99px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.card { background: #fff; border: 1px solid #e6e6ee; border-radius: 16px; padding: 16px; display: grid; gap: 8px; cursor: pointer; transition: box-shadow .15s; }
+.card:hover { box-shadow: 0 8px 24px rgba(27,27,34,.1); }
+.card h3 { margin: 0; font-size: 1.1rem; }
+.card .meta { font-size: .8rem; color: var(--muted); }
+.card .art { background: var(--alt); border-radius: 12px; padding: 10px; display: grid; place-items: center; height: 130px; }
+.card .art svg { max-width: 100%; max-height: 100%; }
+.card label { font-size: .82rem; font-weight: 600; display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.fns { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.fn { background: #fff; border-radius: 16px; padding: 18px; }
+.fn h3 { margin: 0 0 6px; }
+.fn p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.fn .chip { font-size: .75rem; padding: 4px 10px; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #e6e6ee; vertical-align: top; font-size: .92rem; }
+th { color: var(--muted); font-weight: 600; width: 130px; }
+td.h { font-weight: 800; color: var(--red); }
+footer { text-align: center; padding: 28px; color: var(--muted); font-size: .85rem; background: var(--alt); }
+dialog { border: 0; border-radius: 22px; padding: 0; width: min(560px, 94vw); max-height: 92vh; overflow: auto; }
+dialog::backdrop { background: rgba(20,20,30,.55); }
+.mhead { background: var(--alt); padding: 20px; text-align: center; }
+.mhead svg { max-width: 260px; height: auto; }
+.mbody { padding: 20px; display: grid; gap: 12px; }
+.mbody h2 { margin: 0; }
+.mbody p { margin: 0; line-height: 1.5; }
+.spec { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: .92rem; }
+.spec b { color: var(--muted); font-weight: 600; }
+.close { font: inherit; font-weight: 700; border: 0; background: var(--ink); color: #fff; padding: 12px; border-radius: 10px; cursor: pointer; }
+:focus-visible { outline: 3px solid #3b6cf7; outline-offset: 2px; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .nav nav a { margin-left: 12px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card { transition: none; } }
+
+</style>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#inicio"><span class="dot"></span>Guia Raspberry IoT</a>
+    <nav><a href="#placas">Placas</a><a href="#iot">Funções IoT</a><a href="#comparar">Comparar</a></nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <h1>Do sensor ao servidor, em uma placa.</h1>
+      <p>Todas as famílias Raspberry Pi, dos microcontroladores Pico aos computadores e módulos industriais, com o que cada uma faz em projetos de IoT.</p>
+      <a class="btn" href="#placas">Ver as placas</a>
+    </div>
+    <div id="heroArt" class="heroart" aria-hidden="true"></div>
+  </section>
+
+  <section id="placas">
+    <h2>Todas as placas</h2>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Buscar placa" aria-label="Buscar placa">
+      <div id="fams" class="chips" role="group" aria-label="Família"></div>
+      <div id="caps" class="chips" role="group" aria-label="Recurso"></div>
+    </div>
+    <div id="grid" class="grid"></div>
+    <p id="empty" class="muted" hidden>Nenhuma placa com esses filtros.</p>
+  </section>
+
+  <section id="iot" class="alt">
+    <h2>O que cada função de IoT pede</h2>
+    <div id="fn" class="fns"></div>
+  </section>
+
+  <section id="comparar">
+    <h2>Comparar placas</h2>
+    <p class="muted" id="cmpHint">Marque até 3 placas nos cards para compará-las aqui.</p>
+    <div class="scroll"><table id="cmp"></table></div>
+  </section>
+
+  <footer>Site não oficial, feito para estudo. Os dados são uma referência geral: confirme sempre em raspberrypi.com.</footer>
+  <dialog id="modal" aria-label="Detalhes da placa"></dialog>
+  <script>
+(() => {
+  const CAP = { gpio: 'GPIO', wifi: 'Wi-Fi', bt: 'Bluetooth', eth: 'Ethernet', cam: 'Câmera', ai: 'IA na borda',
+    hub: 'Hub/servidor', pcie: 'PCIe/NVMe', lowpower: 'Baixo consumo', rt: 'Tempo real', emb: 'Industrial' };
+  const FN = [
+    ['Sensores e atuadores', 'Lê sensores e aciona relés, motores e LEDs pelos pinos GPIO, I²C, SPI e UART.', 'gpio'],
+    ['Conexão sem fio', 'Envia dados por Wi-Fi ou Bluetooth, por exemplo via MQTT, HTTP ou BLE.', 'wifi'],
+    ['Cabo de rede', 'Liga em rede cabeada para dispositivos fixos, com mais estabilidade.', 'eth'],
+    ['Hub de casa inteligente', 'Roda Home Assistant, Node-RED e brokers MQTT para coordenar outros dispositivos.', 'hub'],
+    ['Câmera e visão computacional', 'Captura imagens e vídeo para monitoramento, leitura de placas ou contagem de objetos.', 'cam'],
+    ['IA na borda', 'Executa modelos de IA no próprio equipamento, sem depender da nuvem. Aceleradores externos ampliam o desempenho.', 'ai'],
+    ['Baixo consumo', 'Funciona com pouca energia, bom para baterias e sensores remotos.', 'lowpower'],
+    ['Controle em tempo real', 'Tempo de resposta previsível para PWM, motores e protocolos com temporização exata.', 'rt'],
+    ['Armazenamento rápido', 'Usa SSD NVMe via PCIe para NAS, gravação de dados e servidores locais.', 'pcie'],
+    ['Industrial e embarcado', 'Módulo para integrar em placa própria de produto, quadro ou equipamento.', 'emb']
+  ];
+  const G = ['gpio'], FULL = ['gpio', 'eth', 'cam'];
+  // id, nome, ano, família, cpu, ram, rede, E/S, tags, tamanho, descrição
+  const B = [
+    ['pi1', 'Raspberry Pi 1 B+', 2014, 'Computador', 'ARM11 single-core 700 MHz', '512 MB', 'Ethernet 10/100', '40 pinos GPIO, 4× USB', [...FULL, 'hub'], 'md', 'A placa que começou tudo. Ainda serve para tarefas leves de automação em rede cabeada.'],
+    ['pi2', 'Raspberry Pi 2 B', 2015, 'Computador', 'Quad-core Cortex-A7 900 MHz', '1 GB', 'Ethernet 10/100', '40 pinos GPIO, 4× USB', [...FULL, 'hub'], 'md', 'Primeira com vários núcleos. Boa para gateways simples e servidores leves.'],
+    ['pi3b', 'Raspberry Pi 3 B', 2016, 'Computador', 'Quad-core Cortex-A53 1,2 GHz', '1 GB', 'Wi-Fi 2,4 GHz, Bluetooth 4.1, Ethernet', '40 pinos GPIO, 4× USB', [...FULL, 'wifi', 'bt', 'hub'], 'md', 'Primeira com Wi-Fi e Bluetooth embutidos, o que simplificou muito projetos de IoT.'],
+    ['pi3bp', 'Raspberry Pi 3 B+', 2018, 'Computador', 'Quad-core Cortex-A53 1,4 GHz', '1 GB', 'Wi-Fi dual-band, Bluetooth 4.2, Gigabit sobre USB 2.0', '40 pinos GPIO, PoE via HAT', [...FULL, 'wifi', 'bt', 'hub'], 'md', 'Wi-Fi mais estável e suporte a alimentação por cabo de rede (PoE) com um HAT.'],
+    ['pi3ap', 'Raspberry Pi 3 A+', 2018, 'Computador', 'Quad-core Cortex-A53 1,4 GHz', '512 MB', 'Wi-Fi dual-band, Bluetooth 4.2', '40 pinos GPIO, 1× USB', [...G, 'cam', 'wifi', 'bt'], 'sm', 'Formato menor e sem Ethernet, pensada para projetos compactos sem fio.'],
+    ['pi4', 'Raspberry Pi 4 B', 2019, 'Computador', 'Quad-core Cortex-A72 1,5 GHz', '1 a 8 GB', 'Wi-Fi dual-band, Bluetooth 5.0, Gigabit Ethernet', '40 pinos GPIO, USB 3.0, 2× micro-HDMI', [...FULL, 'wifi', 'bt', 'hub', 'ai'], 'lg', 'Potente o bastante para hub de casa inteligente, visão computacional e modelos de IA leves.'],
+    ['pi5', 'Raspberry Pi 5', 2023, 'Computador', 'Quad-core Cortex-A76 2,4 GHz', '2 a 16 GB', 'Wi-Fi dual-band, Bluetooth 5.0, Gigabit Ethernet', '40 pinos GPIO, PCIe 2.0, RTC, 2× câmera/display', [...FULL, 'wifi', 'bt', 'hub', 'ai', 'pcie'], 'lg', 'A mais rápida da linha de computadores. Com PCIe aceita SSD NVMe e aceleradores de IA.'],
+    ['zero', 'Raspberry Pi Zero', 2015, 'Zero', 'ARM11 single-core 1 GHz', '512 MB', 'Sem rede embutida', '40 pinos GPIO (sem soldar), mini-HDMI', [...G, 'cam', 'lowpower'], 'sm', 'Minúscula e barata. Precisa de adaptador para conectar à rede.'],
+    ['zerow', 'Raspberry Pi Zero W', 2017, 'Zero', 'ARM11 single-core 1 GHz', '512 MB', 'Wi-Fi 2,4 GHz, Bluetooth 4.1', '40 pinos GPIO, mini-HDMI', [...G, 'cam', 'wifi', 'bt', 'lowpower'], 'sm', 'A Zero com Wi-Fi e Bluetooth, ideal para sensores e câmeras discretas.'],
+    ['zero2w', 'Raspberry Pi Zero 2 W', 2021, 'Zero', 'Quad-core Cortex-A53 1 GHz', '512 MB', 'Wi-Fi 2,4 GHz, Bluetooth 4.2', '40 pinos GPIO, mini-HDMI', [...G, 'cam', 'wifi', 'bt', 'lowpower'], 'sm', 'Mesmo tamanho da Zero W, com bem mais poder de processamento.'],
+    ['pico', 'Raspberry Pi Pico', 2021, 'Pico', 'RP2040 dual-core Cortex-M0+ 133 MHz', '264 KB SRAM, 2 MB flash', 'Sem rede embutida', 'GPIO, ADC, I²C, SPI, UART, PIO', [...G, 'lowpower', 'rt'], 'pico', 'Microcontrolador para leitura de sensores e controle em tempo real, programável em MicroPython ou C.'],
+    ['picow', 'Raspberry Pi Pico W', 2022, 'Pico', 'RP2040 dual-core Cortex-M0+ 133 MHz', '264 KB SRAM, 2 MB flash', 'Wi-Fi 2,4 GHz, Bluetooth', 'GPIO, ADC, I²C, SPI, UART, PIO', [...G, 'wifi', 'bt', 'lowpower', 'rt'], 'pico', 'Pico com rede sem fio: sensores que publicam dados direto na nuvem ou em um broker MQTT.'],
+    ['pico2', 'Raspberry Pi Pico 2', 2024, 'Pico', 'RP2350 dual-core Cortex-M33 ou RISC-V 150 MHz', '520 KB SRAM, 4 MB flash', 'Sem rede embutida', 'GPIO, ADC, I²C, SPI, UART, PIO', [...G, 'lowpower', 'rt'], 'pico', 'Sucessora da Pico, com mais memória, mais desempenho e recursos de segurança.'],
+    ['pico2w', 'Raspberry Pi Pico 2 W', 2024, 'Pico', 'RP2350 dual-core Cortex-M33 ou RISC-V 150 MHz', '520 KB SRAM, 4 MB flash', 'Wi-Fi 2,4 GHz, Bluetooth', 'GPIO, ADC, I²C, SPI, UART, PIO', [...G, 'wifi', 'bt', 'lowpower', 'rt'], 'pico', 'A Pico 2 com Wi-Fi e Bluetooth, para IoT sem fio de baixo consumo.'],
+    ['cm4', 'Compute Module 4', 2020, 'Compute Module', 'Quad-core Cortex-A72 1,5 GHz', '1 a 8 GB, eMMC opcional', 'Gigabit Ethernet, Wi-Fi e Bluetooth opcionais', 'PCIe 2.0, USB 2.0, câmera/display via conectores', [...FULL, 'hub', 'ai', 'pcie', 'emb'], 'md', 'O núcleo do Pi 4 em formato de módulo, para integrar em produtos e equipamentos industriais.'],
+    ['cm5', 'Compute Module 5', 2024, 'Compute Module', 'Quad-core Cortex-A76 2,4 GHz', '2 a 16 GB, eMMC opcional', 'Gigabit Ethernet, Wi-Fi e Bluetooth opcionais', 'PCIe 2.0, USB 3.0, câmera/display via conectores', [...FULL, 'hub', 'ai', 'pcie', 'emb'], 'md', 'O módulo baseado no Pi 5, para produtos que precisam de mais desempenho.'],
+    ['pi400', 'Raspberry Pi 400', 2020, 'Teclado', 'Quad-core Cortex-A72 1,8 GHz', '4 GB', 'Wi-Fi dual-band, Bluetooth 5.0, Gigabit Ethernet', '40 pinos GPIO, USB 3.0, 2× micro-HDMI', [...FULL, 'wifi', 'bt', 'hub'], 'lg', 'Computador dentro do teclado. Ótimo para aprender e prototipar, com GPIO acessível na parte de trás.'],
+    ['pi500', 'Raspberry Pi 500', 2024, 'Teclado', 'Quad-core Cortex-A76 2,4 GHz', '8 GB', 'Wi-Fi dual-band, Bluetooth 5.0, Gigabit Ethernet', '40 pinos GPIO, USB 3.0, 2× micro-HDMI', [...FULL, 'wifi', 'bt', 'hub', 'ai'], 'lg', 'O Pi 5 dentro de um teclado, para estudo, desenvolvimento e uso como estação de trabalho.']
+  ].map(a => ({ id: a[0], n: a[1], y: a[2], f: a[3], cpu: a[4], ram: a[5], net: a[6], io: a[7], t: a[8], s: a[9], d: a[10] }));
+
+  const FAM_COLOR = { Computador: '#2f8a45', Zero: '#3a9a55', Pico: '#1f8f5a', 'Compute Module': '#26303f', Teclado: '#e9e4d8' };
+  const $ = id => document.getElementById(id);
+  const state = { fam: '', cap: '', q: '', cmp: [] };
+
+  function art(b, big) {
+    const sz = { sm: [150, 80], md: [170, 110], lg: [190, 124], pico: [190, 64] }[b.s], [w, h] = sz, col = FAM_COLOR[b.f];
+    const ink = b.f === 'Teclado' ? '#bdb7a8' : '#ffffff';
+    const pins = b.f === 'Pico' ? '' : Array.from({ length: 20 }, (_, i) => `<rect x="${14 + i * ((w - 28) / 20)}" y="6" width="3" height="6" fill="#e8c76a"/>`).join('');
+    const pad = b.f === 'Pico' ? Array.from({ length: 14 }, (_, i) => `<circle cx="${10 + i * ((w - 20) / 13)}" cy="6" r="2" fill="#e8c76a"/><circle cx="${10 + i * ((w - 20) / 13)}" cy="${h - 6}" r="2" fill="#e8c76a"/>`).join('') : '';
+    const keys = b.f === 'Teclado' ? Array.from({ length: 3 }, (_, r) => Array.from({ length: 12 }, (_, c) => `<rect x="${12 + c * 14}" y="${58 + r * 18}" width="11" height="13" rx="2" fill="#fff" stroke="#cfc9ba"/>`).join('')).join('') : '';
+    return `<svg viewBox="0 0 ${w} ${h}" width="${big ? 260 : w}" role="img" aria-label="Ilustração de ${b.n}">
+      <rect width="${w}" height="${h}" rx="8" fill="${col}"/>${pins}${pad}${keys}
+      <rect x="${w * .38}" y="${h * .32}" width="${w * .24}" height="${h * .3}" rx="3" fill="#cfd3da"/>
+      <rect x="${w * .1}" y="${h * .3}" width="${w * .16}" height="${h * .36}" rx="2" fill="${ink}" opacity=".55"/>
+      <rect x="${w * .72}" y="${h * .3}" width="${w * .18}" height="${h * .4}" rx="2" fill="${ink}" opacity=".35"/></svg>`;
+  }
+
+  function chips(box, items, key) {
+    box.innerHTML = '';
+    items.forEach(([v, label]) => {
+      const b = document.createElement('button');
+      b.className = 'chip'; b.textContent = label; b.setAttribute('aria-pressed', state[key] === v);
+      b.onclick = () => { state[key] = state[key] === v ? '' : v; chips(box, items, key); render(); };
+      box.appendChild(b);
+    });
+  }
+
+  function render() {
+    const q = state.q.trim().toLowerCase();
+    const list = B.filter(b => (!state.fam || b.f === state.fam) && (!state.cap || b.t.includes(state.cap)) && (!q || b.n.toLowerCase().includes(q)));
+    $('grid').innerHTML = '';
+    list.forEach(b => {
+      const c = document.createElement('article'); c.className = 'card'; c.tabIndex = 0;
+      c.innerHTML = `<div class="art">${art(b)}</div><h3>${b.n}</h3>
+        <div class="meta">${b.f} · ${b.y}</div><div class="meta">${b.cpu}</div><div class="meta">Memória: ${b.ram}</div>
+        <div class="chips">${b.t.filter(t => CAP[t]).slice(0, 5).map(t => `<span class="tag">${CAP[t]}</span>`).join('')}</div>
+        <label><input type="checkbox" ${state.cmp.includes(b.id) ? 'checked' : ''}> Comparar</label>`;
+      const cb = c.querySelector('input');
+      cb.onclick = e => e.stopPropagation();
+      cb.onchange = () => toggleCmp(b.id, cb);
+      c.querySelector('label').onclick = e => e.stopPropagation();
+      c.onclick = () => openModal(b.id);
+      c.onkeydown = e => { if (e.key === 'Enter') openModal(b.id); };
+      $('grid').appendChild(c);
+    });
+    $('empty').hidden = list.length > 0;
+  }
+
+  function toggleCmp(id, cb) {
+    if (state.cmp.includes(id)) state.cmp = state.cmp.filter(x => x !== id);
+    else if (state.cmp.length < 3) state.cmp.push(id);
+    else { cb.checked = false; $('cmpHint').textContent = 'Você já escolheu 3 placas. Desmarque uma para trocar.'; return; }
+    renderCmp();
+  }
+
+  function renderCmp() {
+    const bs = state.cmp.map(id => B.find(b => b.id === id));
+    $('cmpHint').textContent = bs.length ? 'Comparação das placas escolhidas.' : 'Marque até 3 placas nos cards para compará-las aqui.';
+    if (!bs.length) { $('cmp').innerHTML = ''; return; }
+    const rows = [['Família', b => b.f], ['Ano', b => b.y], ['Processador', b => b.cpu], ['Memória', b => b.ram], ['Rede', b => b.net],
+      ['Entradas e saídas', b => b.io], ['Funções IoT', b => FN.filter(f => b.t.includes(f[2])).map(f => f[0]).join(', ')]];
+    $('cmp').innerHTML = `<tr><th></th>${bs.map(b => `<td class="h">${b.n}</td>`).join('')}</tr>` +
+      rows.map(r => `<tr><th>${r[0]}</th>${bs.map(b => `<td>${r[1](b)}</td>`).join('')}</tr>`).join('');
+  }
+
+  function openModal(id) {
+    const b = B.find(x => x.id === id), m = $('modal');
+    m.innerHTML = `<div class="mhead">${art(b, true)}</div><div class="mbody">
+      <h2>${b.n}</h2><p>${b.d}</p>
+      <div class="spec"><b>Família</b><span>${b.f}, ${b.y}</span><b>Processador</b><span>${b.cpu}</span><b>Memória</b><span>${b.ram}</span>
+      <b>Rede</b><span>${b.net}</span><b>Entradas e saídas</b><span>${b.io}</span></div>
+      <div><b>Funções IoT</b><div class="chips" style="margin-top:8px">${FN.filter(f => b.t.includes(f[2])).map(f => `<span class="tag">${f[0]}</span>`).join('')}</div></div>
+      <button class="close">Fechar</button></div>`;
+    m.querySelector('.close').onclick = () => m.close();
+    m.showModal();
+  }
+  $('modal').addEventListener('click', e => { if (e.target === $('modal')) $('modal').close(); });
+
+  function renderFns() {
+    $('fn').innerHTML = FN.map(f => `<div class="fn"><h3>${f[0]}</h3><p>${f[1]}</p><div class="chips">
+      ${B.filter(b => b.t.includes(f[2])).map(b => `<button class="chip" data-id="${b.id}">${b.n.replace('Raspberry Pi ', '')}</button>`).join('')}</div></div>`).join('');
+    $('fn').querySelectorAll('.chip').forEach(c => c.onclick = () => openModal(c.dataset.id));
+  }
+
+  $('search').addEventListener('input', e => { state.q = e.target.value; render(); });
+  chips($('fams'), ['Computador', 'Zero', 'Pico', 'Compute Module', 'Teclado'].map(f => [f, f]), 'fam');
+  chips($('caps'), Object.entries(CAP), 'cap');
+  $('heroArt').innerHTML = art(B.find(b => b.id === 'pi5'), false);
+  render(); renderFns();
+})();
+
+</script>
+</body>
+</html>
