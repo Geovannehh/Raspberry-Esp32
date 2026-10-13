@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hub IoT: Raspberry Pi, ESP32 e ToF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#inicio">Hub IoT</a>
+    <nav><a href="#pi">Raspberry Pi</a><a href="#esp">ESP32</a><a href="#tof">ToF</a><a href="#vs">Qual usar</a><a href="#iot">IoT</a><a href="#ligacao">Ligação</a></nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <h1>Raspberry Pi, ESP32 e sensores ToF em um só guia.</h1>
+      <p>Todas as placas, chips e sensores de distância, com o que cada um faz em IoT, como se comparam e como ligar um no outro.</p>
+      <a class="btn" href="#pi">Explorar</a>
+    </div>
+    <svg class="beam" viewBox="0 0 520 260" role="img" aria-label="Sensor ToF emitindo luz que reflete em um objeto e volta">
+      <rect x="20" y="90" width="120" height="80" rx="8" class="b-board"/>
+      <rect x="40" y="108" width="50" height="44" rx="4" class="b-chip"/>
+      <rect x="110" y="104" width="22" height="22" rx="3" class="b-lens"/>
+      <rect x="110" y="134" width="22" height="22" rx="3" class="b-lens"/>
+      <line x1="132" y1="115" x2="410" y2="115" class="b-out"/>
+      <line x1="410" y1="145" x2="132" y2="145" class="b-in"/>
+      <rect x="410" y="60" width="26" height="140" rx="6" class="b-obj"/>
+      <circle cx="132" cy="115" r="6" class="p1"/><circle cx="132" cy="115" r="6" class="p2"/>
+      <text x="230" y="100" class="b-txt">emite luz</text>
+      <text x="230" y="170" class="b-txt">mede o tempo de volta</text>
+    </svg>
+  </section>
+
+  <section id="pi"><h2>Famílias Raspberry Pi</h2>
+    <div class="tools"><input id="pi-search" type="search" placeholder="Buscar placa" aria-label="Buscar placa">
+      <div id="pi-fams" class="chips" role="group" aria-label="Filtro de tipo"></div>
+      <div id="pi-caps" class="chips" role="group" aria-label="Filtro de recurso"></div></div>
+    <div id="pi-grid" class="grid"></div><p id="pi-empty" class="muted" hidden>Nada encontrado com esses filtros.</p>
+    <h3 class="sub">Comparar</h3><p id="pi-hint" class="muted"></p><div class="scroll"><table id="pi-cmp"></table></div></section>
+  <section id="esp" class="alt"><h2>Família ESP32</h2>
+    <div class="tools"><input id="esp-search" type="search" placeholder="Buscar chip" aria-label="Buscar chip">
+      <div id="esp-fams" class="chips" role="group" aria-label="Filtro de tipo"></div>
+      <div id="esp-caps" class="chips" role="group" aria-label="Filtro de recurso"></div></div>
+    <div id="esp-grid" class="grid"></div><p id="esp-empty" class="muted" hidden>Nada encontrado com esses filtros.</p>
+    <h3 class="sub">Comparar</h3><p id="esp-hint" class="muted"></p><div class="scroll"><table id="esp-cmp"></table></div></section>
+  <section id="tof"><h2>Sensores ToF</h2>
+    <div class="tools"><input id="tof-search" type="search" placeholder="Buscar sensor" aria-label="Buscar sensor">
+      <div id="tof-fams" class="chips" role="group" aria-label="Filtro de tipo"></div>
+      <div id="tof-caps" class="chips" role="group" aria-label="Filtro de recurso"></div></div>
+    <div id="tof-grid" class="grid"></div><p id="tof-empty" class="muted" hidden>Nada encontrado com esses filtros.</p>
+    <h3 class="sub">Comparar</h3><p id="tof-hint" class="muted"></p><div class="scroll"><table id="tof-cmp"></table></div></section>
+
+  <section id="vs" class="alt">
+    <h2>Raspberry Pi ou ESP32?</h2>
+    <div class="scroll"><table class="vs">
+      <tr><th></th><td class="h">Raspberry Pi</td><td class="h">ESP32</td></tr>
+      <tr><th>O que é</th><td>Computador com Linux completo (exceto a linha Pico, que é microcontrolador)</td><td>Microcontrolador com Wi-Fi e Bluetooth, rodando firmware direto</td></tr>
+      <tr><th>Consumo</th><td>Mais alto, melhor com tomada ou bateria grande</td><td>Pode dormir com consumo muito baixo e funcionar a bateria</td></tr>
+      <tr><th>Programação</th><td>Python, C, Node.js e o que roda em Linux</td><td>C/C++ (Arduino ou ESP-IDF) e MicroPython</td></tr>
+      <tr><th>Bom para</th><td>Hub de casa inteligente, câmera com visão computacional, banco de dados, interface gráfica</td><td>Sensores e atuadores sem fio, baratos e em grande quantidade</td></tr>
+      <tr><th>Juntos</th><td colspan="2">Vários ESP32 com sensores enviam dados por MQTT para um Raspberry Pi rodando Home Assistant ou Node-RED.</td></tr>
+    </table></div>
+  </section>
+
+  <section id="iot">
+    <h2>Funções de IoT dos Raspberry Pi</h2><div id="fnpi" class="fns"></div>
+    <h2 class="gap">Funções de IoT dos ESP32</h2><div id="fn" class="fns"></div>
+    <h2 class="gap">O que dá para fazer com ToF</h2><div id="use" class="fns"></div>
+  </section>
+
+  <section id="ligacao" class="alt">
+    <h2>Ligação rápida: sensor VL53L1X</h2>
+    <div class="two">
+      <div>
+        <table class="wire">
+          <tr><th>Sensor</th><th>ESP32 (DevKit)</th><th>Raspberry Pi</th></tr>
+          <tr><td>VIN</td><td>3V3</td><td>3V3 (pino 1)</td></tr>
+          <tr><td>GND</td><td>GND</td><td>GND (pino 6)</td></tr>
+          <tr><td>SDA</td><td>GPIO 21</td><td>GPIO 2 (pino 3)</td></tr>
+          <tr><td>SCL</td><td>GPIO 22</td><td>GPIO 3 (pino 5)</td></tr>
+          <tr><td>XSHUT (opcional)</td><td colspan="2">Qualquer GPIO livre</td></tr>
+        </table>
+        <p class="muted">No Raspberry Pi, ative o I²C nas configurações do sistema antes de usar. Para vários sensores no mesmo barramento, mantenha todos desligados pelo XSHUT, ligue um por vez e troque o endereço de cada um por software.</p>
+      </div>
+      <div class="codes">
+        <div><h3>ESP32 (Arduino, biblioteca da Pololu)</h3><pre><code>#include &lt;Wire.h&gt;
+#include &lt;VL53L1X.h&gt;   // biblioteca da Pololu
+
+VL53L1X sensor;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22);        // SDA, SCL
+  Wire.setClock(400000);
+  sensor.setTimeout(500);
+  if (!sensor.init()) {
+    Serial.println("Sensor não encontrado");
+    while (1);
+  }
+  sensor.setDistanceMode(VL53L1X::Long);
+  sensor.setMeasurementTimingBudget(50000);
+  sensor.startContinuous(50);
+}
+
+void loop() {
+  uint16_t mm = sensor.read();
+  if (!sensor.timeoutOccurred())
+    Serial.printf("%u mm\n", mm);
+}</code></pre></div>
+        <div><h3>Raspberry Pi (Python, biblioteca da Adafruit)</h3><pre><code>import time
+import board
+import adafruit_vl53l1x
+
+i2c = board.I2C()
+sensor = adafruit_vl53l1x.VL53L1X(i2c)
+sensor.start_ranging()
+
+while True:
+    if sensor.data_ready:
+        print(sensor.distance, "cm")
+        sensor.clear_interrupt()
+    time.sleep(0.1)</code></pre></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Site não oficial, feito para estudo. Os dados são uma referência geral: confirme em raspberrypi.com e nos datasheets da Espressif e da STMicroelectronics.</footer>
+  <dialog id="modal" aria-label="Detalhes"></dialog>
+  <script src="script.js"></script>
+</body>
+</html>
